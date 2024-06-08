@@ -6,6 +6,9 @@ import cors from 'cors';
 import { User } from './models/user';
 import { AppDataSource } from './dataSource';
 import { AuthRoutes } from './routes/userRoutes';
+import { authentification } from './middlewares/authMiddleware';
+import { authorization } from './middlewares/AuthorizationMiddleware';
+import { UserController } from './controllers/UserController';
 
 
 
@@ -28,6 +31,13 @@ app.get('/', (request, response) => {
 })
 
 app.use('/auth', AuthRoutes)
+
+app.get(
+  "/users",
+  authentification,
+  authorization(["user"]),
+  UserController.getUsers
+);
 
 
 

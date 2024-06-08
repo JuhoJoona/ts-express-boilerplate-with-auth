@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/user";
 import { AppDataSource } from "../dataSource";
 import { encrypt } from "../bcrypt/encrypt";
+import * as cache from "memory-cache";
 
 
 export class UserController
@@ -28,6 +29,25 @@ export class UserController
             return res.status(500)
         }
     }
+
+    static async getUsers(req: Request, res: Response) {
+        const data = cache.get("data");
+        if (data) {
+          console.log("serving from cache");
+          return res.status(200).json({
+            data,
+          });
+        } else {
+          console.log("serving from db");
+          const userRepository = AppDataSource.getRepository(User);
+          const users = await userRepository.find();
+    
+          cache.put("data", users, 6000);
+          return res.status(200).json({
+            data: users,
+          });
+        }
+      }
 
     static async updateUser(req: Request, res: Response) {
         const { id } = req.params;
