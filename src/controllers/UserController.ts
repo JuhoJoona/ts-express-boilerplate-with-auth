@@ -38,7 +38,6 @@ export class UserController
             data,
           });
         } else {
-          console.log("serving from db");
           const userRepository = AppDataSource.getRepository(User);
           const users = await userRepository.find();
     

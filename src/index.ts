@@ -23,6 +23,7 @@ AppDataSource.initialize()
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+app.use(cors())
 
 app.use(bodyParser.json())
 
@@ -39,10 +40,7 @@ app.get(
   UserController.getUsers
 );
 
-
-
-
-
+app.post('/users/update', authentification, UserController.updateUser);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
