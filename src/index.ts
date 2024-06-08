@@ -17,7 +17,6 @@ dotenv.config();
 AppDataSource.initialize()
 .then(() => {
     console.log("Data Source has been initialized!");
-    // Here you can start to work with your entities
 })
 .catch((error) => console.log("Error during Data Source initialization", error));
 
@@ -28,7 +27,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
+  response.json({ info: 'Node.js, Express, and Postgres' })
 })
 
 app.use('/auth', AuthRoutes)
